@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EL | 24기 신입부원 모집</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Noto+Sans+KR:wght@300;400;700;900&display=swap');
+
+        :root {
+            --primary-blue: #3b82f6;
+            --dark-blue: #1d4ed8;
+            --glow-shadow: 0 0 20px rgba(59, 130, 246, 0.5);
+        }
+
+        body {
+            margin: 0;
+            background-color: #000;
+            color: #fff;
+            font-family: 'Noto Sans KR', sans-serif;
+            overflow-x: hidden;
+        }
+
+        .font-orbitron { font-family: 'Orbitron', sans-serif; }
+
+        #three-canvas {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* Glassmorphism Design */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .glass-card:hover {
+            border-color: var(--primary-blue);
+            box-shadow: 0 0 30px rgba(59, 130, 246, 0.3);
+            transform: translateY(-5px);
+        }
+
+        /* Award Box Style */
+        .record-item {
+            background: rgba(59, 130, 246, 0.05);
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            border-left: 4px solid var(--primary-blue);
+            padding: 12px 18px;
+            margin-bottom: 10px;
+            font-size: 0.9rem;
+            transition: 0.3s;
+            display: block;
+            width: 100%;
+        }
+
+        .record-item:hover {
+            background: rgba(59, 130, 246, 0.15);
+            transform: translateX(8px);
+            border-color: var(--primary-blue);
+        }
+
+        .hero-text {
+            text-shadow: 0 0 15px rgba(59, 130, 246, 0.6), 0 0 30px rgba(59, 130, 246, 0.3);
+            line-height: 1.1;
+        }
+
+        .blue-gradient-text {
+            background: linear-gradient(90deg, #3b82f6, #60a5fa, #93c5fd);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .badge-star {
+            background: linear-gradient(45deg, #1d4ed8, #3b82f6);
+            box-shadow: 0 0 15px rgba(59, 130, 246, 0.5);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.03); opacity: 0.8; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .timeline-container::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 2px;
+            height: 100%;
+            background: linear-gradient(to bottom, transparent, var(--primary-blue), var(--primary-blue), transparent);
+        }
+
+        .apply-btn {
+            background: linear-gradient(90deg, #2563eb, #3b82f6);
+            transition: 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .apply-btn:hover {
+            box-shadow: 0 0 40px rgba(59, 130, 246, 0.8);
+            transform: scale(1.05);
+        }
+
+        section { padding: 100px 24px; }
+
+        @media (max-width: 1024px) {
+            .timeline-container::before { left: 20px; transform: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 3D Background Canvas -->
+    <canvas id="three-canvas"></canvas>
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-50 px-6 py-4 flex justify-between items-center bg-black/70 backdrop-blur-lg border-b border-blue-900/30">
+        <div class="text-2xl font-black font-orbitron tracking-tighter text-blue-500">EL</div>
+        <div class="hidden md:flex space-x-8 font-bold text-sm tracking-widest">
+            <a href="#home" class="hover:text-blue-400 transition">HOME</a>
+            <a href="#about" class="hover:text-blue-400 transition">ABOUT</a>
+            <a href="#legacy" class="hover:text-blue-400 transition">LEGACY</a>
+            <a href="#recruit" class="text-blue-400 hover:text-blue-300 transition uppercase">Recruitment</a>
+        </div>
+        <a href="#recruit" class="px-5 py-2 bg-blue-600 rounded-full text-xs font-black hover:bg-blue-500 transition shadow-lg shadow-blue-500/20">APPLY NOW</a>
+    </nav>
+
+    <!-- Section 1: Hero Section -->
+    <section id="home" class="min-h-screen flex flex-col justify-center items-center text-center pt-20">
+        <div class="z-10">
+            <div class="badge-star inline-block px-5 py-1.5 rounded-full text-xs font-bold mb-6 tracking-widest uppercase">
+                2025-2026 2년 연속 PD Lab STAR 선정
+            </div>
+            <h2 class="text-blue-400 font-orbitron tracking-[0.3em] text-sm md:text-lg mb-4 opacity-90 uppercase">Computer Software Engineering</h2>
+            <h1 class="text-5xl md:text-8xl font-black font-orbitron hero-text mb-8">
+                ENGINEERING<br><span class="blue-gradient-text">LEADER</span>
+            </h1>
+            <p class="max-w-3xl mx-auto text-gray-300 text-base md:text-xl leading-relaxed mb-10 px-4">
+                EL과 함께<br class="hidden md:block"> 
+                교내 대회, 공모전, 다양활 활동을 도전해볼 <strong>24기 신입 부원</strong>을 기다립니다.
+            </p>
+            <div class="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-6 justify-center items-center">
+                <a href="#recruit" class="apply-btn px-10 py-5 rounded-xl font-black text-lg tracking-tight">24기 지원하기</a>
+                <a href="#about" class="px-10 py-5 bg-white/5 border border-white/10 rounded-xl font-bold hover:bg-white/10 transition backdrop-blur-sm">동아리 소개</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 2: Club About -->
+    <section id="about" class="max-w-7xl mx-auto">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center mb-24">
+            <div>
+                <h2 class="text-blue-500 font-orbitron font-bold tracking-widest mb-4 uppercase">Our Domain</h2>
+                <h3 class="text-4xl md:text-5xl font-black mb-6 leading-tight">같이 해봐요<br>EL에서</h3>
+                <p class="text-gray-400 text-lg leading-relaxed mb-8">
+                    컴퓨터소프트웨어공학과 전공 동아리 EL에서 다양한 활동에 적극적으로 참여하실 분을 기다립니다. <br>
+                </p>
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="bg-blue-900/20 p-4 rounded-lg border border-blue-500/20 text-center font-bold text-blue-400">신입생 환영회</div>
+                    <div class="bg-blue-900/20 p-4 rounded-lg border border-blue-500/20 text-center font-bold text-blue-400">하계 동계 MT</div>
+                    <div class="bg-blue-900/20 p-4 rounded-lg border border-blue-500/20 text-center font-bold text-blue-400">동아리 내 경진대회</div>
+                    <div class="bg-blue-900/20 p-4 rounded-lg border border-blue-500/20 text-center font-bold text-blue-400">하계 동계 총회</div>
+                </div>
+            </div>
+            <div class="mb-12">
+                <h3 class="text-2xl font-bold text-blue-400 mb-8 pb-4 border-b-2 border-blue-500/30">✨ 활동 혜택</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="glass-card p-6 rounded-2xl">
+                        <h4 class="text-xl font-bold text-blue-400 mb-3">01. 튜터링</h4>
+                        <p class="text-gray-400 text-sm">학기마다 동아리 내 튜터링 시스템으로 체계적인 학습 지원</p>
+                    </div>
+                    <div class="glass-card p-6 rounded-2xl">
+                        <h4 class="text-xl font-bold text-blue-400 mb-3">02. 제작 지원비</h4>
+                        <p class="text-gray-400 text-sm">교내 IoT 관련 수업, 공모전 대외 활동 참가 시 제작 지원비 지급</p>
+                    </div>
+                    <div class="glass-card p-6 rounded-2xl">
+                        <h4 class="text-xl font-bold text-blue-400 mb-3">03. 다양한 기자재</h4>
+                        <p class="text-gray-400 text-sm">동아리방, 프린터기, 동아리 소유 센서 등 다양한 기자재 사용 가능</p>
+                    </div>
+                    <div class="glass-card p-6 rounded-2xl">
+                        <h4 class="text-xl font-bold text-blue-400 mb-3">04. 활발한 커뮤니티</h4>
+                        <p class="text-gray-400 text-sm">타전공 수강, 근로 등 학교생활에 모르는 건 편하게 단톡방에 물어보세요.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 3: History (Legacy) -->
+    <section id="legacy" class="bg-blue-900/5">
+        <div class="max-w-6xl mx-auto px-4">
+            <div class="text-center mb-20">
+                <h2 class="text-4xl font-black font-orbitron mb-4">OUR LEGACY</h2>
+                <div class="w-20 h-1 bg-blue-600 mx-auto"></div>
+            </div>
+
+            <div class="timeline-container relative">
+                
+                <!-- Year 2026 -->
+                <div class="mb-24 flex flex-col lg:flex-row items-start lg:items-center justify-between w-full">
+                    <div class="hidden lg:block lg:w-4/12 text-right pr-12">
+                        <span class="text-6xl font-black font-orbitron text-blue-500">2026</span>
+                    </div>
+                    <div class="z-20 w-10 h-10 rounded-full bg-blue-600 border-4 border-black flex items-center justify-center mb-6 lg:mb-0 ml-[-5px] lg:ml-0">
+                        <div class="w-3 h-3 bg-white rounded-full animate-ping"></div>
+                    </div>
+                    <div class="w-full lg:w-7/12 pl-8 lg:pl-12 text-left">
+                        <div class="glass-card p-8 rounded-2xl border-l-4 border-l-blue-500">
+                            <span class="lg:hidden text-4xl font-black font-orbitron text-blue-500 block mb-4">2026</span>
+                            <div class="flex flex-col">
+                                <div class="record-item font-bold text-blue-300">PD Lab STAR 선정 (2년 연속)</div>
+                                <div class="record-item">RISE사업 학생참여형 리빙랩 활동 우수상</div>
+                                <div class="record-item">창업전략 시뮬레이션 연합창업캠프 우수상</div>
+                                <div class="record-item">AI로 만드는 우리 대학 이야기 우수상</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Year 2025 -->
+                <div class="mb-24 flex flex-col lg:flex-row items-start lg:items-center justify-between w-full">
+                    <div class="w-full lg:w-7/12 lg:pr-12 text-left lg:text-right order-3 lg:order-1 pl-8 lg:pl-0">
+                        <div class="glass-card p-8 rounded-2xl border-r-0 lg:border-r-4 lg:border-r-blue-700">
+                            <span class="lg:hidden text-4xl font-black font-orbitron text-blue-500 block mb-4">2025</span>
+                            <div class="flex flex-col">
+                                <div class="record-item lg:text-right">PD Lab STAR 최초 선정</div>
+                                <div class="record-item lg:text-right">2025 동양미래대 EXPO(제43회 졸업작품 전시회) 우수상</div>
+                                <div class="record-item lg:text-right">2025 학생창업주간 AX START UP 우수상</div>
+                                <div class="record-item lg:text-right">2025 호남IS해커톤 우수상</div>
+                                <div class="record-item lg:text-right">2025 한국컴퓨터종합학술대회 논문전시</div>
+                                <div class="record-item lg:text-right">2025 지산학 한마당 GVALLEY 작품전시</div>
+                                <div class="record-item lg:text-right">2025 KES2024(한국전자전) 서울 코엑스 작품전시</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="z-20 w-10 h-10 rounded-full bg-blue-700 border-4 border-black order-1 lg:order-2 mb-6 lg:mb-0 ml-[-5px] lg:ml-0"></div>
+                    <div class="hidden lg:block lg:w-4/12 text-left pl-12 order-2 lg:order-3">
+                        <span class="text-6xl font-black font-orbitron text-blue-700 opacity-50">2025</span>
+                    </div>
+                </div>
+
+                <!-- Year 2024 -->
+                <div class="mb-20 flex flex-col lg:flex-row items-start lg:items-center justify-between w-full">
+                    <div class="hidden lg:block lg:w-4/12 text-right pr-12">
+                        <span class="text-6xl font-black font-orbitron text-blue-900 opacity-40">2024</span>
+                    </div>
+                    <div class="z-20 w-10 h-10 rounded-full bg-blue-900 border-4 border-black flex items-center justify-center mb-6 lg:mb-0 ml-[-5px] lg:ml-0"></div>
+                    <div class="w-full lg:w-7/12 pl-8 lg:pl-12 text-left">
+                        <div class="glass-card p-8 rounded-2xl border-l-4 border-l-blue-900">
+                            <span class="lg:hidden text-4xl font-black font-orbitron text-blue-500 block mb-4">2024</span>
+                            <div class="flex flex-col space-y-1">
+                                <div class="record-item">2024 동양미래대 EXPO(제43회 졸업작품 전시회) 대상</div>
+                                <div class="record-item">2024 DIGI-STAR PROGRAM IN JEJU 경진대회 대상</div>
+                                <div class="record-item text-blue-400 font-bold">2024 스마트SW 개발 경진대회 최우수상</div>
+                                <div class="record-item">2024 산학연협력 EXPO 부산 벡스코 작품전시</div>
+                                <div class="record-item">2024 KES2024(한국전자전) 서울 코엑스 작품전시</div>
+                                <div class="record-item">2024 NEXTGEN STARTUP 창업캠프 미니 경진대회 우수상</div>
+                                <div class="record-item">2024 LINC 3.0 캡스톤디자인 경진대회 우수상</div>
+                                <div class="record-item">2024 한국실천공학교육학회 종합학술발표대회 동상</div>
+                                <div class="record-item">2024 한국실천공학교육학회 종합학술발표대회 특별상</div>
+                                <div class="record-item">2024 스마트SW 개발 경진대회 장려상</div>
+                                <div class="record-item">2024 전국 창의코딩 경진대회 장려상</div>
+                                <div class="record-item font-medium">전문대학 신산업분야 성과포럼 수상</div>
+                                <div class="record-item">컴퓨터공학부 교내 경진대회 우수상</div>
+                                <div class="record-item">컴퓨터공학부 교내 경진대회 장려상</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 4: Recruitment -->
+    <section id="recruit" class="max-w-5xl mx-auto">
+        <div class="glass-card p-10 md:p-20 rounded-[3rem] border-2 border-blue-500/30 relative overflow-hidden">
+            <div class="absolute top-0 right-0 w-64 h-64 bg-blue-600/10 blur-[100px] rounded-full"></div>
+            
+            <div class="text-center mb-16">
+                <h2 class="text-blue-500 font-orbitron font-black tracking-tighter text-2xl mb-2 uppercase">Join The Leader</h2>
+                <h3 class="text-4xl md:text-6xl font-black mb-4">24기 신입부원 모집</h3>
+                <p class="text-gray-400 font-bold uppercase tracking-widest">Comp. Software Engineering PD Lab STAR</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 mb-16">
+                <div class="space-y-8">
+                    <div>
+                        <h5 class="text-blue-400 font-bold mb-2 flex items-center">
+                            <span class="w-2 h-2 bg-blue-400 rounded-full mr-3"></span>모집 대상
+                        </h5>
+                        <p class="text-xl">컴퓨터소프트웨어공학과 재학생 (1, 2학년)</p>
+                    </div>
+                    <div>
+                        <h5 class="text-blue-400 font-bold mb-2 flex items-center">
+                            <span class="w-2 h-2 bg-blue-400 rounded-full mr-3"></span>모집 기간
+                        </h5>
+                        <p class="text-xl font-bold text-blue-100">2026. 02. 23 — 03. 08 (18:00 마감)</p>
+                        <p class="text-sm text-gray-500 mt-1">* 서류 합격자 한에 문자 개별 안내</p>
+                    </div>
+                </div>
+                <div class="space-y-8">
+                    <div>
+                        <h5 class="text-blue-400 font-bold mb-2 flex items-center">
+                            <span class="w-2 h-2 bg-blue-400 rounded-full mr-3"></span>주요 일정
+                        </h5>
+                        <div class="space-y-2">
+                            <p class="text-lg font-bold"><span class="text-blue-300">1차 합격 안내:</span> 03. 08 (20:00 발표)</p>
+                            <p class="text-lg"><span class="text-blue-300">면접 일정:</span> 03. 09 — 03. 10</p>
+                        </div>
+                    </div>
+                    <div>
+                        <h5 class="text-blue-400 font-bold mb-2 flex items-center">
+                            <span class="w-2 h-2 bg-blue-400 rounded-full mr-3"></span>동아리 혜택
+                        </h5>
+                        <ul class="text-gray-300 space-y-1 text-sm md:text-base">
+                            <li>• 2개의 동아리방과 함께 전자레인지 프린터기 사용 가능</li>
+                            <li>• 작품제작비 및 재료비 전폭 지원</li>
+                            <li>• 자체 멘토링 및 프로젝트 진행</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Notice for returning students -->
+            <div class="bg-blue-600/10 border border-blue-500/30 p-6 rounded-2xl mb-12 text-center">
+                <h6 class="text-blue-400 font-bold mb-2 tracking-wide">⭐ 복학생 안내 사항</h6>
+                <p class="text-gray-300 text-sm leading-relaxed">
+                    휴학 전 EL 부원이었던 분들 중 복학 후 동아리 활동을 계속하실 의향이 있는 분들은<br class="hidden md:block">
+                    문의 사항의 <strong>회장 연락처</strong>로 문자 주시기 바랍니다.
+                </p>
+            </div>
+
+            <div class="text-center">
+                <a href="https://forms.gle/6fJZX63MJb1kG9Pn7" target="_blank" class="apply-btn inline-block px-16 py-6 rounded-2xl font-black text-2xl shadow-2xl shadow-blue-600/40">
+                    지금 바로 지원하기
+                </a>
+                <p class="mt-6 text-gray-500 text-sm italic">문의: 회장 (010-8537-2259)</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-20 border-t border-white/5 text-center bg-black">
+        <div class="flex justify-center space-x-10 mb-10 text-sm font-bold tracking-widest uppercase">
+            <a href="https://github.com/el-dmu" target="_blank" class="text-gray-400 hover:text-blue-400 transition transform hover:scale-110">GitHub</a>
+        </div>
+        <p class="text-gray-700 text-[10px] tracking-[0.3em] uppercase px-4">&copy; 2026 Engineering Leader | 24th Gen Recruitment</p>
+    </footer>
+
+    <script>
+        // Three.js Background Implementation
+        let scene, camera, renderer, particles, starGeo;
+
+        function initThree() {
+            scene = new THREE.Scene();
+            camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 1, 1000);
+            camera.position.z = 1;
+            camera.rotation.x = Math.PI / 2;
+
+            renderer = new THREE.WebGLRenderer({
+                canvas: document.getElementById('three-canvas'),
+                antialias: true,
+                alpha: true
+            });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setPixelRatio(window.devicePixelRatio);
+
+            // Create Star Particles
+            starGeo = new THREE.BufferGeometry();
+            const points = [];
+            for (let i = 0; i < 6000; i++) {
+                let star = new THREE.Vector3(
+                    Math.random() * 600 - 300,
+                    Math.random() * 600 - 300,
+                    Math.random() * 600 - 300
+                );
+                points.push(star);
+            }
+            starGeo.setFromPoints(points);
+
+            // Use a simple procedural circle for star texture
+            let starMaterial = new THREE.PointsMaterial({
+                color: 0x3b82f6,
+                size: 0.75,
+                transparent: true,
+                opacity: 0.8,
+                blending: THREE.AdditiveBlending
+            });
+
+            particles = new THREE.Points(starGeo, starMaterial);
+            scene.add(particles);
+
+            animate();
+        }
+
+        function animate() {
+            const positions = starGeo.attributes.position.array;
+            for (let i = 0; i < positions.length; i += 3) {
+                // Moving stars downward for 'warp speed' effect
+                positions[i + 1] -= 0.6; 
+                if (positions[i + 1] < -300) {
+                    positions[i + 1] = 300;
+                }
+            }
+            starGeo.attributes.position.needsUpdate = true;
+            particles.rotation.y += 0.0012;
+
+            renderer.render(scene, camera);
+            requestAnimationFrame(animate);
+        }
+
+        // Handle Window Resize
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+
+        // Initialize Three.js on page load
+        window.addEventListener('DOMContentLoaded', initThree);
+
+        // Smooth Scroll Logic
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
