@@ -90,7 +90,7 @@ GitHub Pages를 통해 쉽게 배포 가능합니다:
 ## 📞 문의사항
 
 - **회장**: 010-8537-2259
-- **GitHub**: https://el-dmu.github.io
+- **GitHub**: https://github.com/el-dmu
 - **Instagram**: EL 동아리 인스타그램
 
 ## 📄 라이선스
